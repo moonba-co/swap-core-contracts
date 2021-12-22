@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.6.6;
+pragma solidity =0.6.6;
 
 import "../interfaces/IMoonbaPair.sol";
 
@@ -35,7 +35,7 @@ library MoonbaLibrary {
                         hex"ff",
                         factory,
                         keccak256(abi.encodePacked(token0, token1)),
-                        hex"96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f" // init code hash
+                        hex"fc9c49f753d79b734ecbd11746429a2c8b7223b46db7d37c39564e6a66f43942" // init code hash
                     )
                 )
             )
@@ -82,7 +82,7 @@ library MoonbaLibrary {
             reserveIn > 0 && reserveOut > 0,
             "MoonbaLibrary: INSUFFICIENT_LIQUIDITY"
         );
-        uint256 amountInWithFee = amountIn.mul(998);
+        uint256 amountInWithFee = amountIn.mul(997);
         uint256 numerator = amountInWithFee.mul(reserveOut);
         uint256 denominator = reserveIn.mul(1000).add(amountInWithFee);
         amountOut = numerator / denominator;
@@ -100,7 +100,7 @@ library MoonbaLibrary {
             "MoonbaLibrary: INSUFFICIENT_LIQUIDITY"
         );
         uint256 numerator = reserveIn.mul(amountOut).mul(1000);
-        uint256 denominator = reserveOut.sub(amountOut).mul(998);
+        uint256 denominator = reserveOut.sub(amountOut).mul(997);
         amountIn = (numerator / denominator).add(1);
     }
 

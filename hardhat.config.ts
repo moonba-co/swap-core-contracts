@@ -4,6 +4,7 @@ import { HardhatUserConfig, task } from "hardhat/config";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-web3";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
@@ -21,7 +22,7 @@ task("accounts", "Prints the list of accounts with balances").setAction(
     console.log(`===== Available accounts for "${hre.network.name}" =====`);
     const balances = await Promise.all(
       Object.keys(accounts).map((accKey) =>
-        hre.ethers.provider.getBalance(accounts[accKey])
+        hre.web3.eth.getBalance(accounts[accKey])
       )
     ).then((result) => result);
 
@@ -49,7 +50,7 @@ const config: HardhatUserConfig = {
             enabled: true,
             runs: 999999,
           },
-          evmVersion: "berlin",
+          evmVersion: "istanbul",
         },
       },
     ],
@@ -77,6 +78,8 @@ const config: HardhatUserConfig = {
   },
   namedAccounts: {
     deployer: 0,
+    feeToSetter: 1,
+    feeTo: 2,
   },
   contractSizer: {
     alphaSort: true,
