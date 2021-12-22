@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.6;
 
-import "./interfaces/IUniswapV2Factory.sol";
-import "./UniswapV2Pair.sol";
+import "./interfaces/IMoonbaPair.sol";
+import "./interfaces/IMoonbaFactory.sol";
+import "./MoonbaPair.sol";
 
-contract UniswapV2Factory is IUniswapV2Factory {
+contract MoonbaFactory is IMoonbaFactory {
     address public override feeTo;
     address public override feeToSetter;
 
@@ -33,12 +34,12 @@ contract UniswapV2Factory is IUniswapV2Factory {
             getPair[token0][token1] == address(0),
             "UniswapV2: PAIR_EXISTS"
         ); // single check is sufficient
-        bytes memory bytecode = type(UniswapV2Pair).creationCode;
+        bytes memory bytecode = type(MoonbaPair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
             pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
-        IUniswapV2Pair(pair).initialize(token0, token1);
+        IMoonbaPair(pair).initialize(token0, token1);
         getPair[token0][token1] = pair;
         getPair[token1][token0] = pair; // populate mapping in the reverse direction
         allPairs.push(pair);

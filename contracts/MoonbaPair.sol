@@ -1,26 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.6;
 
-import "./interfaces/IUniswapV2Pair.sol";
+import "./interfaces/IMoonbaPair.sol";
 import "./libraries/Math.sol";
 import "./libraries/SafeMath.sol";
 import "./libraries/UQ112x112.sol";
 import "./interfaces/IERC20.sol";
-import "./interfaces/IUniswapV2Factory.sol";
-import "./interfaces/IUniswapV2Callee.sol";
+import "./interfaces/IMoonbaFactory.sol";
+import "./interfaces/IMoonbaCallee.sol";
 
-contract UniswapV2Pair is IUniswapV2Pair {
+contract MoonbaPair is IMoonbaPair {
     using SafeMath for uint256;
     using UQ112x112 for uint224;
 
-    string public constant override name = "Uniswap V2";
-    string public constant override symbol = "UNI-V2";
+    string public constant override name = "Moonba LPs";
+    string public constant override symbol = "Moonba-LP";
     uint8 public constant override decimals = 18;
     uint256 public override totalSupply;
     mapping(address => uint256) public override balanceOf;
     mapping(address => mapping(address => uint256)) public override allowance;
 
-    bytes32 public override DOMAIN_SEPARATOR;
+    bytes32 public immutable override DOMAIN_SEPARATOR;
     // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
     bytes32 public constant override PERMIT_TYPEHASH =
         0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
@@ -176,29 +176,6 @@ contract UniswapV2Pair is IUniswapV2Pair {
         _approve(owner, spender, value);
     }
 
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Mint(address indexed sender, uint256 amount0, uint256 amount1);
-    event Burn(
-        address indexed sender,
-        uint256 amount0,
-        uint256 amount1,
-        address indexed to
-    );
-    event Swap(
-        address indexed sender,
-        uint256 amount0In,
-        uint256 amount1In,
-        uint256 amount0Out,
-        uint256 amount1Out,
-        address indexed to
-    );
-    event Sync(uint112 reserve0, uint112 reserve1);
-
     constructor() public {
         factory = msg.sender;
         uint256 chainId;
@@ -258,7 +235,7 @@ contract UniswapV2Pair is IUniswapV2Pair {
         private
         returns (bool feeOn)
     {
-        address feeTo = IUniswapV2Factory(factory).feeTo();
+        address feeTo = IMoonbaFactory(factory).feeTo();
         feeOn = feeTo != address(0);
         uint256 _kLast = kLast; // gas savings
         if (feeOn) {
@@ -369,7 +346,7 @@ contract UniswapV2Pair is IUniswapV2Pair {
             if (amount0Out > 0) _safeTransfer(_token0, to, amount0Out); // optimistically transfer tokens
             if (amount1Out > 0) _safeTransfer(_token1, to, amount1Out); // optimistically transfer tokens
             if (data.length > 0)
-                IUniswapV2Callee(to).uniswapV2Call(
+                IMoonbaCallee(to).moonbaCall(
                     msg.sender,
                     amount0Out,
                     amount1Out,
