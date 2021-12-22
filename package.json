@@ -53,6 +53,8 @@
     "web3": "^1.6.1"
   },
   "dependencies": {
-    "@ethersproject/solidity": "^5.5.0"
+    "@ethersproject/providers": "^5.5.1",
+    "@ethersproject/solidity": "^5.5.0",
+    "ethereumjs-util": "^7.1.3"
   }
 }
