@@ -4,7 +4,8 @@
   "description": "Core contracts for DEX deployment built on Uniswap V2",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "hh test",
+    "lint": "yarn prettier ./test/*.ts --check"
   },
   "repository": {
     "type": "git",
