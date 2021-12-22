@@ -82,7 +82,7 @@ library MoonbaLibrary {
             reserveIn > 0 && reserveOut > 0,
             "MoonbaLibrary: INSUFFICIENT_LIQUIDITY"
         );
-        uint256 amountInWithFee = amountIn.mul(997);
+        uint256 amountInWithFee = amountIn.mul(998);
         uint256 numerator = amountInWithFee.mul(reserveOut);
         uint256 denominator = reserveIn.mul(1000).add(amountInWithFee);
         amountOut = numerator / denominator;
@@ -100,7 +100,7 @@ library MoonbaLibrary {
             "MoonbaLibrary: INSUFFICIENT_LIQUIDITY"
         );
         uint256 numerator = reserveIn.mul(amountOut).mul(1000);
-        uint256 denominator = reserveOut.sub(amountOut).mul(997);
+        uint256 denominator = reserveOut.sub(amountOut).mul(998);
         amountIn = (numerator / denominator).add(1);
     }
 
