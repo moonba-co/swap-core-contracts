@@ -25,15 +25,12 @@ contract MoonbaFactory is IMoonbaFactory {
         override
         returns (address pair)
     {
-        require(tokenA != tokenB, "UniswapV2: IDENTICAL_ADDRESSES");
+        require(tokenA != tokenB, "Moonba: IDENTICAL_ADDRESSES");
         (address token0, address token1) = tokenA < tokenB
             ? (tokenA, tokenB)
             : (tokenB, tokenA);
-        require(token0 != address(0), "UniswapV2: ZERO_ADDRESS");
-        require(
-            getPair[token0][token1] == address(0),
-            "UniswapV2: PAIR_EXISTS"
-        ); // single check is sufficient
+        require(token0 != address(0), "Moonba: ZERO_ADDRESS");
+        require(getPair[token0][token1] == address(0), "Moonba: PAIR_EXISTS"); // single check is sufficient
         bytes memory bytecode = type(MoonbaPair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
@@ -47,12 +44,12 @@ contract MoonbaFactory is IMoonbaFactory {
     }
 
     function setFeeTo(address _feeTo) external override {
-        require(msg.sender == feeToSetter, "UniswapV2: FORBIDDEN");
+        require(msg.sender == feeToSetter, "Moonba: FORBIDDEN");
         feeTo = _feeTo;
     }
 
     function setFeeToSetter(address _feeToSetter) external override {
-        require(msg.sender == feeToSetter, "UniswapV2: FORBIDDEN");
+        require(msg.sender == feeToSetter, "Moonba: FORBIDDEN");
         feeToSetter = _feeToSetter;
     }
 }
