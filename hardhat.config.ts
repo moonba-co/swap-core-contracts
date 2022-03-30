@@ -78,8 +78,8 @@ const config: HardhatUserConfig = {
   },
   namedAccounts: {
     deployer: 0,
-    feeToSetter: 1,
-    feeTo: 2,
+    feeToSetter: 5,
+    feeTo: 6,
   },
   contractSizer: {
     alphaSort: true,
