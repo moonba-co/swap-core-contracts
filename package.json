@@ -1,5 +1,5 @@
 {
-  "name": "swap-core-contracts",
+  "name": "@moonba/swap-core-contracts",
   "version": "1.0.0",
   "description": "Core contracts for DEX deployment built on Uniswap V2",
   "main": "index.js",
